@@ -8,7 +8,7 @@ module.exports = {
 }
 
 function get(id) {
-    let query = db('schools');
+    let query = db('phrases');
 
     if (id) {
         return query
@@ -19,40 +19,28 @@ function get(id) {
     return query;
 }
 
-function add(school) {
-    school = { ...school, donated: 0, achieved: false };
-    if (school.description === undefined) {
-        school = { ...school, description: "" }
+function add(phrase) {
+    phrase = { ...phrase };
+    if (phrase.description === undefined) {
+        phrase = { ...phrase, phraseTitle: "" }
     }
-    if (school.admin_id === undefined) {
-        school = { ...school, admin_id: 1 }
+    if (phrase.admin_id === undefined) {
+        phrase = { ...phrase, user_id: 1 }
     }
-    if (school.city === undefined) {
-        school = { ...school, city: "city" }
-    }
-    if (school.state === undefined) {
-        school = { ...school, state: "state" }
-    }
-    if (school.lat === undefined) {
-        school = { ...school, lat: 0.0 }
-    }
-    if (school.lon === undefined) {
-        school = { ...school, lon: 0.0 }
-    }
-    console.log(school)
-    return db('schools')
-        .insert(school)
+    console.log(phrase)
+    return db('phrases')
+        .insert(phrase)
         .then(([id]) => ({ id }));
 }
 
 function remove(id) {
-    return db('schools')
+    return db('phrases')
         .where('id', id)
         .del();
 }
 
 function update(id, changes) {
-    return db('schools')
+    return db('phrases')
         .where('id', id)
         .update(changes)
         .then(count => (count > 0 ? this.get(id) : null));
